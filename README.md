@@ -15,7 +15,6 @@
 - [Architecture](#architecture)
 - [Authentification](#authentification)
 - [Rôles et permissions](#rôles-et-permissions)
-- [Routes API](#routes-api)
 - [Emails](#emails)
 - [Uploads](#uploads)
 
@@ -279,56 +278,6 @@ PENDING → REJECTED  (vendeur)
 DRAFT → PENDING_REVIEW → PUBLISHED → RESERVED → SOLD
                       ↘ DRAFT (rejeté par admin)
                                    ↘ ARCHIVED
-```
-
----
-
-## Routes API
-
-La documentation complète des 62 routes est dans [API_ROUTES.md](./API_ROUTES.md).
-
-### Résumé par module
-
-| Module | Routes | Accès |
-|---|---|---|
-| Auth | 8 | public / ROLE_USER |
-| Profil `/api/me` | 11 | ROLE_USER |
-| Catalogue `/api/species`, `/api/breeds`, `/api/animals`, `/api/sellers` | 7 | public |
-| Vendeur `/api/seller` | 15 | ROLE_SELLER |
-| Admin `/api/admin` | 16 | ROLE_ADMIN |
-
-### Format des réponses
-
-**Succès :**
-```json
-{ "data": { ... } }
-```
-
-**Succès paginé :**
-```json
-{
-  "data": [ ... ],
-  "meta": {
-    "page": 1, "limit": 20, "total": 87,
-    "total_pages": 5, "has_next": true, "has_prev": false
-  }
-}
-```
-
-**Erreur :**
-```json
-{ "error": "Message d'erreur" }
-```
-
-**Erreur de validation (422) :**
-```json
-{
-  "error": "Validation failed",
-  "violations": {
-    "email": ["This email address is already in use."],
-    "password": ["Password must be at least 8 characters."]
-  }
-}
 ```
 
 ---
