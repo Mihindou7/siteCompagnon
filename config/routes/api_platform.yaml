@@ -1,4 +1,1 @@
-api_platform:
-    resource: .
-    type: api_platform
-    prefix: /api
+# API Platform non utilisé dans ce projet - config désactivée

@@ -3,16 +3,25 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Annotation\Route;
 
-final class MeController extends AbstractController
+class MeController extends AbstractController
 {
-    #[Route('/me', name: 'app_me')]
-    public function index(): Response
+    #[Route('/api/me', methods: ['GET'])]
+    public function index(): JsonResponse
     {
-        return $this->render('me/index.html.twig', [
-            'controller_name' => 'MeController',
+        $user = $this->getUser();
+
+        if (!$user) {
+            return new JsonResponse([
+                'message' => 'Not authenticated'
+            ], 401);
+        }
+
+        return new JsonResponse([
+            'email' => $user->getUserIdentifier(),
+            'roles' => $user->getRoles()
         ]);
     }
 }

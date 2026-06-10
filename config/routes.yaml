@@ -1,11 +1,11 @@
 # yaml-language-server: $schema=../vendor/symfony/routing/Loader/schema/routing.schema.json
 
-# This file is the entry point to configure the routes of your app.
-# Methods with the #[Route] attribute are automatically imported.
-# See also https://symfony.com/doc/current/routing.html
+# JWT login — intercepté par le firewall json_login, aucun controller requis
+api_login_check:
+    path: /api/auth/login
+    methods: [POST]
 
-# To list all registered routes, run the following command:
-#   bin/console debug:router
-
-controllers:
-    resource: routing.controllers
+# JWT refresh token
+api_refresh_token:
+    path: /api/auth/token/refresh
+    methods: [POST]

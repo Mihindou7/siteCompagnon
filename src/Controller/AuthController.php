@@ -21,26 +21,24 @@ public function register(
 
     $data = json_decode($request->getContent(), true);
 
-    if (!isset($data['email']) || !isset($data['password'])) {
-        return $this->json([
-            'message' => 'Email et password requis'
-        ], 400);
+    if (!isset($data['email']) || !isset($data['password']) || !isset($data['role'])) {
+        return $this->json(['message' => 'Email, password et role requis'], 400);
+    }
+
+    $allowedRoles = ['ROLE_USER', 'ROLE_SELLER'];
+    if (!in_array($data['role'], $allowedRoles, true)) {
+        return $this->json(['message' => 'Rôle invalide. Choisissez ROLE_USER ou ROLE_SELLER'], 400);
     }
 
     $user = new User();
     $user->setEmail($data['email']);
-
-    $hashedPassword = $hasher->hashPassword($user, $data['password']);
-    $user->setPassword($hashedPassword);
-
-    $user->setRoles(['ROLE_USER']); 
+    $user->setPassword($hasher->hashPassword($user, $data['password']));
+    $user->setRoles([$data['role']]);
 
     $em->persist($user);
     $em->flush();
 
-    return new JsonResponse([
-        'message' => 'User created successfully'
-    ], 201);
+    return new JsonResponse(['message' => 'Utilisateur créé avec succès'], 201);
 }
    #[Route('/api/login', name: 'api_login', methods: ['POST'])]
     #[OA\RequestBody(
